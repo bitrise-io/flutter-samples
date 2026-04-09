@@ -1,25 +1,35 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility that Flutter provides. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:plugintest_example/main.dart';
 
 void main() {
-  testWidgets('Verify Platform version', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
+  TestWidgetsFlutterBinding.ensureInitialized();
 
-    // Verify that platform version is retrieved.
+  setUp(() {
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+      const MethodChannel('plugintest'),
+      (MethodCall methodCall) async {
+        if (methodCall.method == 'getPlatformVersion') return 'test-os 1.0';
+        return null;
+      },
+    );
+  });
+
+  tearDown(() {
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(const MethodChannel('plugintest'), null);
+  });
+
+  testWidgets('Verify Platform version', (WidgetTester tester) async {
+    await tester.pumpWidget(const MyApp());
+    await tester.pumpAndSettle();
+
     expect(
       find.byWidgetPredicate(
-        (Widget widget) => widget is Text &&
-                           widget.data.startsWith('Running on:'),
+        (Widget widget) =>
+            widget is Text && (widget.data?.startsWith('Running on:') ?? false),
       ),
       findsOneWidget,
     );

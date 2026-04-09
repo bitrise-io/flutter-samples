@@ -1,13 +1,7 @@
-import 'dart:async';
-
-import 'package:flutter/services.dart';
+import 'plugintest_platform_interface.dart';
 
 class Plugintest {
-  static const MethodChannel _channel =
-      const MethodChannel('plugintest');
-
-  static Future<String> get platformVersion async {
-    final String version = await _channel.invokeMethod('getPlatformVersion');
-    return version;
+  Future<String?> getPlatformVersion() {
+    return PlugintestPlatform.instance.getPlatformVersion();
   }
 }
