@@ -9,7 +9,8 @@ Sample Flutter projects covering typical combinations of platform targets, proje
 | [flutter-ios-android](flutter-ios-android/) | App · iOS + Android | pub | flutter_test (widget) | none |
 | [flutter-package](flutter-package/) | Dart package | pub | flutter_test (unit) | none |
 | [flutter-plugin](flutter-plugin/) | Plugin · Android + iOS · with example app | pub | flutter_test (unit, in root + example) | none |
-| [flutter-web-fvm](flutter-web-fvm/) | App · Web (canvaskit) | pub | flutter_test (unit + widget) | `.fvmrc` (fvm) |
+| [flutter-web](flutter-web/) | App · Web (canvaskit) | pub | flutter_test (unit + widget) | `.fvmrc` (fvm) |
+| [flutter-ios-android-web](flutter-ios-android-web/) | App · iOS + Android + Web | pub | flutter_test (widget) | `.tool-versions` (asdf/mise) |
 
 ---
 
@@ -74,7 +75,7 @@ flutter test
 
 ---
 
-### flutter-web-fvm
+### flutter-web
 
 **Stack:** Flutter Web · Dart · canvaskit renderer · flutter_test · pub
 
@@ -90,8 +91,30 @@ flutter test
 dart pub global activate fvm
 export PATH="$PATH":"$HOME/.pub-cache/bin"
 
-cd flutter-web-fvm
+cd flutter-web
 fvm install        # installs the Flutter version declared in .fvmrc
 fvm flutter pub get
 fvm flutter test
+```
+
+---
+
+### flutter-ios-android-web
+
+**Stack:** Flutter · Dart · iOS · Android · Web · flutter_test · pub
+
+**What it demonstrates:**
+- Flutter app targeting iOS, Android, and Web simultaneously
+- `ios/`, `android/`, and `web/` directories all present
+- Flutter version pinned via `.tool-versions` (used by asdf and mise)
+- Scanner detects: `ios/Runner.xcworkspace` + `android/build.gradle.kts` + `web/index.html` + `test/*_test.dart`
+
+**How to run:**
+```bash
+# Optional: install asdf or mise and run `asdf install` / `mise install`
+# to get the exact Flutter version declared in .tool-versions
+
+cd flutter-ios-android-web
+flutter pub get
+flutter test
 ```
