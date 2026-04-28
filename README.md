@@ -66,7 +66,7 @@ flutter test
 - Root plugin: `android/build.gradle.kts` present, no `ios/Runner.xcworkspace`, has `test/*_test.dart` → `test+android` config
 - Example sub-project: `ios/Runner.xcworkspace` + `android/build.gradle.kts` + `test/*_test.dart` → `test+both` config
 - Scanner detects two `pubspec.yaml` files → two separate configs generated
-- Flutter version pinned via `.fvmrc` (used by fvm); `pubspec.lock` is gitignored as is standard for plugins
+- Flutter version pinned via `.fvmrc` in the root plugin and `.fvm/fvm_config.json` in the `example/` sub-project (fvm v3 vs v2 config formats); `pubspec.lock` is gitignored as is standard for plugins
 
 **How to run:**
 ```bash
